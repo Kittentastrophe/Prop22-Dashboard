@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prop 22 Driver Pay Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root, [data-theme="light"] {
+      --text-xs: clamp(0.75rem, 0.72rem + 0.2vw, 0.875rem);
+      --text-sm: clamp(0.875rem, 0.82rem + 0.28vw, 1rem);
+      --text-base: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
+      --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.45rem);
+      --text-xl: clamp(1.45rem, 1.2rem + 1vw, 2rem);
+      --text-2xl: clamp(2.1rem, 1.5rem + 2vw, 3.5rem);
+      --space-1: 0.25rem; --space-2: 0.5rem; --space-3: 0.75rem; --space-4: 1rem; --space-5: 1.25rem;
+      --space-6: 1.5rem; --space-8: 2rem; --space-10: 2.5rem; --space-12: 3rem; --space-16: 4rem;
+      --color-bg: #f4f5f2;
+      --color-surface: #fbfcfa;
+      --color-surface-2: #ffffff;
+      --color-surface-offset: #edf0eb;
+      --color-border: #d8ddd6;
+      --color-divider: #e5e8e2;
+      --color-text: #111714;
+      --color-text-muted: #5d665f;
+      --color-text-faint: #879087;
+      --color-text-inverse: #f5f7f4;
+      --color-primary: #0b8f55;
+      --color-primary-hover: #0a7245;
+      --color-primary-soft: #dff3e8;
+      --color-blue: #1458d4;
+      --color-blue-soft: #dce8ff;
+      --color-warning: #99510d;
+      --color-warning-soft: #f8ead8;
+      --color-success: #2a7a2a;
+      --color-success-soft: #e0f0e0;
+      --radius-sm: 0.5rem; --radius-md: 0.875rem; --radius-lg: 1.25rem; --radius-xl: 1.75rem; --radius-full: 9999px;
+      --shadow-sm: 0 1px 2px rgb(17 23 20 / 0.06);
+      --shadow-md: 0 16px 36px rgb(17 23 20 / 0.08);
+      --shadow-lg: 0 24px 56px rgb(17 23 20 / 0.12);
+      --font-body: 'Instrument Sans', 'Inter', sans-serif;
+      --font-display: 'Manrope', 'Instrument Sans', sans-serif;
+      --transition: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    [data-theme="dark"] {
+      --color-bg: #0d1110;
+      --color-surface: #131917;
+      --color-surface-2: #171f1c;
+      --color-surface-offset: #1b2521;
+      --color-border: #293330;
+      --color-divider: #1f2724;
+      --color-text: #edf3ef;
+      --color-text-muted: #afbbb3;
+      --color-text-faint: #7d8b84;
+      --color-text-inverse: #0d1110;
+      --color-primary: #39c37a;
+      --color-primary-hover: #66d798;
+      --color-primary-soft: #153223;
+      --color-blue: #79a9ff;
+      --color-blue-soft: #19253c;
+      --color-warning: #f0b06f;
+      --color-warning-soft: #342719;
+      --color-success: #7dd87d;
+      --color-success-soft: #193119;
+      --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.25);
+      --shadow-md: 0 16px 36px rgb(0 0 0 / 0.3);
+      --shadow-lg: 0 24px 56px rgb(0 0 0 / 0.42);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme]) {
+        --color-bg: #0d1110;
+        --color-surface: #131917;
+        --color-surface-2: #171f1c;
+        --color-surface-offset: #1b2521;
+        --color-border: #293330;
+        --color-divider: #1f2724;
+        --color-text: #edf3ef;
+        --color-text-muted: #afbbb3;
+        --color-text-faint: #7d8b84;
+        --color-text-inverse: #0d1110;
+        --color-primary: #39c37a;
+        --color-primary-hover: #66d798;
+        --color-primary-soft: #153223;
+        --color-blue: #79a9ff;
+        --color-blue-soft: #19253c;
+        --color-warning: #f0b06f;
+        --color-warning-soft: #342719;
+        --color-success: #7dd87d;
+        --color-success-soft: #193119;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      color: var(--color-text);
+      background:
+        radial-gradient(circle at top right, color-mix(in srgb, var(--color-primary) 16%, transparent), transparent 28%),
+        radial-gradient(circle at bottom left, color-mix(in srgb, var(--color-blue) 10%, transparent), transparent 26%),
+        var(--color-bg);
+      min-height: 100vh;
+    }
+    button, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    a, button, input { transition: background var(--transition), color var(--transition), border-color var(--transition), box-shadow var(--transition), transform var(--transition); }
+    :focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; }
+    .skip-link {
+      position: absolute; left: 1rem; top: -3rem; padding: 0.75rem 1rem; border-radius: var(--radius-md);
+      background: var(--color-text); color: var(--color-text-inverse); z-index: 20;
+    }
+    .skip-link:focus { top: 1rem; }
+    .app { width: min(1280px, calc(100% - 1.25rem)); margin: 0 auto; padding: var(--space-5) 0 var(--space-12); }
+    .topbar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); margin-bottom: var(--space-6); }
+    .brand { display: flex; align-items: center; gap: var(--space-3); text-decoration: none; color: inherit; min-height: 44px; }
+    .brand svg { width: 42px; height: 42px; }
+    .brand-name { font-family: var(--font-display); font-size: var(--text-lg); font-weight: 800; line-height: 1.05; }
+    .brand-sub { font-size: var(--text-sm); color: var(--color-text-muted); }
+    .icon-btn {
+      min-width: 44px; min-height: 44px; border-radius: var(--radius-full); border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+      background: color-mix(in srgb, var(--color-surface) 85%, transparent); box-shadow: var(--shadow-sm); display: inline-flex; align-items: center; justify-content: center;
+    }
+    .dashboard { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: var(--space-6); }
+    .panel {
+      background: color-mix(in srgb, var(--color-surface) 92%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(14px);
+    }
+    .sidebar { padding: var(--space-5); display: grid; gap: var(--space-5); align-content: start; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.45rem; width: fit-content; padding: 0.45rem 0.8rem;
+      border-radius: var(--radius-full); background: var(--color-primary-soft); color: var(--color-primary); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    .hero-title { font-family: var(--font-display); font-size: var(--text-2xl); line-height: 0.95; letter-spacing: -0.03em; margin: 0; }
+    .hero-copy { color: var(--color-text-muted); margin: 0; }
+    .section-title { margin: 0 0 var(--space-2); font-size: var(--text-lg); font-weight: 700; }
+    .section-copy { margin: 0 0 var(--space-4); color: var(--color-text-muted); }
+    .field-grid { display: grid; gap: var(--space-4); }
+    .field { display: grid; gap: var(--space-2); }
+    label { font-size: var(--text-sm); font-weight: 700; }
+    .field-note { font-size: var(--text-xs); color: var(--color-text-faint); }
+    input {
+      width: 100%; min-height: 50px; padding: 0.95rem 1rem; border-radius: var(--radius-md);
+      border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent); background: var(--color-surface-2);
+      box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.05);
+    }
+    input:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-primary) 16%, transparent); }
+    .btn-row { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+    .btn {
+      min-height: 50px; padding: 0.95rem 1rem; border-radius: var(--radius-md); border: 1px solid transparent; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    }
+    .btn-primary { background: var(--color-primary); color: var(--color-text-inverse); box-shadow: 0 16px 32px color-mix(in srgb, var(--color-primary) 20%, transparent); }
+    .btn-primary:hover { background: var(--color-primary-hover); transform: translateY(-1px); }
+    .btn-secondary { background: transparent; border-color: color-mix(in srgb, var(--color-text) 12%, transparent); }
+    .btn-secondary:hover { background: var(--color-surface-offset); }
+    .formula-card {
+      padding: var(--space-4); border-radius: var(--radius-lg); background: linear-gradient(180deg, color-mix(in srgb, var(--color-surface-2) 95%, transparent), color-mix(in srgb, var(--color-surface-offset) 100%, transparent));
+      border: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+    }
+    .formula-card strong { display: block; font-size: var(--text-sm); margin-bottom: 0.2rem; }
+    .formula-card span { color: var(--color-text-muted); font-size: var(--text-sm); }
+    .main { display: grid; gap: var(--space-6); min-width: 0; }
+    .hero-panel { padding: var(--space-6); display: grid; gap: var(--space-5); }
+    .hero-meta { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--space-4); }
+    .meta-card {
+      padding: var(--space-4); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--color-surface-2) 98%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-text) 9%, transparent);
+    }
+    .meta-label { display: block; font-size: var(--text-xs); color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.06em; }
+    .meta-value { display: block; margin-top: 0.35rem; font-size: var(--text-lg); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .results-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-4); }
+    .kpi {
+      padding: var(--space-5); border-radius: var(--radius-lg); background: color-mix(in srgb, var(--color-surface-2) 98%, transparent);
+      border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent); position: relative; overflow: hidden;
+    }
+    .kpi::after {
+      content: ''; position: absolute; inset: auto -15% -40% auto; width: 120px; height: 120px; border-radius: 50%;
+      background: color-mix(in srgb, var(--kpi-accent, var(--color-primary)) 15%, transparent); filter: blur(10px);
+    }
+    .kpi-label { display: block; font-size: var(--text-sm); color: var(--color-text-muted); max-width: 26ch; }
+    .kpi-value { display: block; font-family: var(--font-display); font-size: var(--text-xl); letter-spacing: -0.03em; margin-top: 0.55rem; font-variant-numeric: tabular-nums; }
+    .kpi-detail { display: block; margin-top: 0.45rem; color: var(--color-text-faint); font-size: var(--text-xs); }
+    .kpi.primary { --kpi-accent: var(--color-primary); }
+    .kpi.blue { --kpi-accent: var(--color-blue); }
+    .kpi.warning { --kpi-accent: var(--color-warning); }
+    .kpi.success { --kpi-accent: var(--color-success); }
+    .lower { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: var(--space-6); }
+    .panel-pad { padding: var(--space-5); }
+    .bar-wrap { display: grid; gap: var(--space-4); }
+    .bar-block { display: grid; gap: var(--space-2); }
+    .bar-line {
+      height: 14px; background: var(--color-surface-offset); border-radius: var(--radius-full); overflow: hidden; border: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+    }
+    .bar-fill { height: 100%; border-radius: inherit; width: 0%; transition: width 260ms var(--transition); }
+    .bar-fill.base { background: linear-gradient(90deg, var(--color-blue), color-mix(in srgb, var(--color-blue) 70%, white)); }
+    .bar-fill.floor { background: linear-gradient(90deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, white)); }
+    .bar-fill.adjustment { background: linear-gradient(90deg, var(--color-warning), color-mix(in srgb, var(--color-warning) 70%, white)); }
+    .bar-label { display: flex; justify-content: space-between; gap: var(--space-3); font-size: var(--text-sm); }
+    .tips { margin: 0; padding-left: 1.2rem; color: var(--color-text-muted); }
+    .tips li + li { margin-top: var(--space-3); }
+    .status { min-height: 1.5em; color: var(--color-text-faint); font-size: var(--text-xs); }
+    .pill-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+    .mini-pill {
+      padding: 0.55rem 0.8rem; border-radius: var(--radius-full); background: var(--color-surface-offset); color: var(--color-text-muted); font-size: var(--text-xs); font-weight: 700;
+      border: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+    }
+    .foot { padding: var(--space-4) var(--space-5); color: var(--color-text-faint); font-size: var(--text-sm); border-top: 1px solid var(--color-divider); }
+    @media (max-width: 1100px) {
+      .dashboard, .lower { grid-template-columns: 1fr; }
+      .hero-meta, .results-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+    @media (max-width: 700px) {
+      .app { width: min(100% - 0.8rem, 1280px); }
+      .hero-meta, .results-grid, .btn-row { grid-template-columns: 1fr; }
+      .topbar { margin-bottom: var(--space-4); }
+      .hero-panel, .sidebar, .panel-pad { padding: 1rem; }
+      .bar-label { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to dashboard</a>
+  <div class="app">
+    <header class="topbar">
+      <a class="brand" href="#main" aria-label="Prop 22 Driver Pay Dashboard home">
+        <svg viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <rect x="8" y="14" width="48" height="36" rx="10" stroke="currentColor" stroke-width="4"></rect>
+          <path d="M20 37L28 28L35 33L44 23" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+          <circle cx="44" cy="23" r="3" fill="currentColor"></circle>
+        </svg>
+        <div>
+          <div class="brand-name">Driver Pay Dashboard</div>
+          <div class="brand-sub">Prop 22 biweekly estimator</div>
+        </div>
+      </a>
+      <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch to dark mode">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+      </button>
+    </header>
+
+    <main id="main" class="dashboard">
+      <aside class="panel sidebar" aria-labelledby="input-title">
+        <div class="badge">California rideshare</div>
+        <div>
+          <h1 class="hero-title">Biweekly only, same dashboard feel.</h1>
+          <p class="hero-copy">This version keeps the dashboard layout and switches the calculator back to one biweekly pay-period view only.</p>
+        </div>
+
+        <section>
+          <h2 id="input-title" class="section-title">Biweekly inputs</h2>
+          <p class="section-copy">Enter engaged time and engaged miles for the full two-week pay period.</p>
+          <form id="calc-form" class="field-grid" novalidate>
+            <div class="field">
+              <label for="hours">Active hours</label>
+              <div class="field-note">Hours spent on engaged rides during the full biweekly period.</div>
+              <input id="hours" name="hours" type="number" min="0" step="0.01" value="49" placeholder="49">
+            </div>
+            <div class="field">
+              <label for="miles">Engaged miles</label>
+              <div class="field-note">Pickup and trip miles for the full biweekly period.</div>
+              <input id="miles" name="miles" type="number" min="0" step="0.1" value="840" placeholder="840">
+            </div>
+            <div class="field">
+              <label for="wage">Local minimum wage</label>
+              <div class="field-note">Hourly minimum wage for your California market.</div>
+              <input id="wage" name="wage" type="number" min="0" step="0.01" value="16.50" placeholder="16.50">
+            </div>
+            <div class="field">
+              <label for="earnings">Base earnings from rides</label>
+              <div class="field-note">Trip pay before any Prop 22 make-up pay for the same two weeks.</div>
+              <input id="earnings" name="earnings" type="number" min="0" step="0.01" value="1460" placeholder="1460">
+            </div>
+            <div class="btn-row">
+              <button class="btn btn-primary" type="submit">Update dashboard</button>
+              <button class="btn btn-secondary" type="button" id="resetBtn">Reset example</button>
+            </div>
+            <div class="status" id="status" aria-live="polite"></div>
+          </form>
+        </section>
+
+        <section class="formula-card" aria-label="Formula summary">
+          <strong>Formulas used</strong>
+          <span>120% wage guarantee = active hours × local minimum wage × 1.2.</span><br>
+          <span>Mileage adjustment = engaged miles × $0.34.</span><br>
+          <span>Prop 22 payout = max(0, total floor − base earnings).</span>
+        </section>
+      </aside>
+
+      <section class="main">
+        <section class="panel hero-panel" aria-labelledby="overview-title">
+          <div class="pill-row">
+            <div class="mini-pill">Biweekly only</div>
+            <div class="mini-pill">Dashboard style layout</div>
+            <div class="mini-pill">Engaged time + engaged miles</div>
+          </div>
+          <div>
+            <h2 id="overview-title" class="section-title">Current biweekly overview</h2>
+            <p class="section-copy">These cards show the full two-week pay period exactly as entered.</p>
+          </div>
+          <div class="hero-meta">
+            <div class="meta-card"><span class="meta-label">Period</span><span class="meta-value">Biweekly</span></div>
+            <div class="meta-card"><span class="meta-label">Active hours</span><span class="meta-value" id="metaHours">49.00</span></div>
+            <div class="meta-card"><span class="meta-label">Engaged miles</span><span class="meta-value" id="metaMiles">840.0</span></div>
+            <div class="meta-card"><span class="meta-label">Base earnings</span><span class="meta-value" id="metaBase">$1,460.00</span></div>
+          </div>
+          <div class="results-grid">
+            <article class="kpi primary">
+              <span class="kpi-label">120% wage guarantee</span>
+              <span class="kpi-value" id="guaranteeValue">$970.20</span>
+              <span class="kpi-detail">Active hours × local minimum wage × 1.2</span>
+            </article>
+            <article class="kpi blue">
+              <span class="kpi-label">$0.34 per mile adjustment</span>
+              <span class="kpi-value" id="mileageValue">$285.60</span>
+              <span class="kpi-detail">Engaged miles × 0.34</span>
+            </article>
+            <article class="kpi success">
+              <span class="kpi-label">Total earnings floor</span>
+              <span class="kpi-value" id="floorValue">$1,255.80</span>
+              <span class="kpi-detail">Guarantee + mileage adjustment</span>
+            </article>
+            <article class="kpi warning">
+              <span class="kpi-label">Prop 22 adjustment payout</span>
+              <span class="kpi-value" id="adjustmentValue">$0.00</span>
+              <span class="kpi-detail">Extra amount owed when the floor is higher than base earnings</span>
+            </article>
+            <article class="kpi">
+              <span class="kpi-label">Net pay after subtracting base fares</span>
+              <span class="kpi-value" id="netValue">-$204.20</span>
+              <span class="kpi-detail">Raw floor minus base earnings, useful for checking surplus or shortfall</span>
+            </article>
+            <article class="kpi primary">
+              <span class="kpi-label">Total projected pay including adjustment</span>
+              <span class="kpi-value" id="totalPayValue">$1,460.00</span>
+              <span class="kpi-detail">Base earnings + Prop 22 payout</span>
+            </article>
+          </div>
+        </section>
+
+        <section class="lower">
+          <section class="panel panel-pad" aria-labelledby="breakdown-title">
+            <h2 id="breakdown-title" class="section-title">Pay breakdown</h2>
+            <p class="section-copy">These bars compare your base earnings, total floor, and any top-up owed for the biweekly period.</p>
+            <div class="bar-wrap">
+              <div class="bar-block">
+                <div class="bar-label"><span>Base earnings</span><strong id="barBaseLabel">$1,460.00</strong></div>
+                <div class="bar-line"><div class="bar-fill base" id="barBase"></div></div>
+              </div>
+              <div class="bar-block">
+                <div class="bar-label"><span>Total floor</span><strong id="barFloorLabel">$1,255.80</strong></div>
+                <div class="bar-line"><div class="bar-fill floor" id="barFloor"></div></div>
+              </div>
+              <div class="bar-block">
+                <div class="bar-label"><span>Prop 22 payout</span><strong id="barAdjLabel">$0.00</strong></div>
+                <div class="bar-line"><div class="bar-fill adjustment" id="barAdj"></div></div>
+              </div>
+            </div>
+          </section>
+
+          <aside class="panel panel-pad" aria-labelledby="notes-title">
+            <h2 id="notes-title" class="section-title">How to read it</h2>
+            <ul class="tips">
+              <li>The calculator is now fixed to a two-week pay period, so no weekly toggle or weekly projection appears.</li>
+              <li>The wage guarantee uses engaged time only, not total online time.</li>
+              <li>The mileage line uses engaged miles only and multiplies them by $0.34.</li>
+              <li>The Prop 22 payout never drops below zero even when your base earnings already beat the floor.</li>
+              <li>The total projected pay card adds any Prop 22 top-up to your base ride earnings for the same biweekly period.</li>
+            </ul>
+          </aside>
+        </section>
+
+        <footer class="foot">Built as a dashboard-style California Prop 22 calculator with biweekly-only inputs.</footer>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const toggle = document.querySelector('[data-theme-toggle]');
+      let theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', theme);
+      const moon = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>';
+      const sun = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="5"></circle><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path></svg>';
+      const syncTheme = () => {
+        if (!toggle) return;
+        const next = theme === 'dark' ? 'light' : 'dark';
+        toggle.innerHTML = theme === 'dark' ? sun : moon;
+        toggle.setAttribute('aria-label', `Switch to ${next} mode`);
+      };
+      syncTheme();
+      toggle?.addEventListener('click', () => {
+        theme = theme === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', theme);
+        syncTheme();
+      });
+
+      const $ = (id) => document.getElementById(id);
+      const form = $('calc-form');
+      const resetBtn = $('resetBtn');
+      const currency = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' });
+      const number1 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+      const number2 = new Intl.NumberFormat('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+      const refs = {
+        hours: $('hours'), miles: $('miles'), wage: $('wage'), earnings: $('earnings'),
+        guaranteeValue: $('guaranteeValue'), mileageValue: $('mileageValue'), floorValue: $('floorValue'), adjustmentValue: $('adjustmentValue'),
+        netValue: $('netValue'), totalPayValue: $('totalPayValue'), status: $('status'),
+        metaHours: $('metaHours'), metaMiles: $('metaMiles'), metaBase: $('metaBase'),
+        barBase: $('barBase'), barFloor: $('barFloor'), barAdj: $('barAdj'),
+        barBaseLabel: $('barBaseLabel'), barFloorLabel: $('barFloorLabel'), barAdjLabel: $('barAdjLabel')
+      };
+
+      const getNum = (el) => {
+        const v = Number.parseFloat(el.value);
+        return Number.isFinite(v) && v >= 0 ? v : 0;
+      };
+
+      const calculate = () => {
+        const hours = getNum(refs.hours);
+        const miles = getNum(refs.miles);
+        const wage = getNum(refs.wage);
+        const earnings = getNum(refs.earnings);
+        const guarantee = hours * wage * 1.2;
+        const mileage = miles * 0.34;
+        const floor = guarantee + mileage;
+        const adjustment = Math.max(0, floor - earnings);
+        const net = floor - earnings;
+        const totalPay = earnings + adjustment;
+
+        refs.guaranteeValue.textContent = currency.format(guarantee);
+        refs.mileageValue.textContent = currency.format(mileage);
+        refs.floorValue.textContent = currency.format(floor);
+        refs.adjustmentValue.textContent = currency.format(adjustment);
+        refs.netValue.textContent = `${net < 0 ? '-' : ''}${currency.format(Math.abs(net))}`;
+        refs.totalPayValue.textContent = currency.format(totalPay);
+        refs.metaHours.textContent = number2.format(hours);
+        refs.metaMiles.textContent = number1.format(miles);
+        refs.metaBase.textContent = currency.format(earnings);
+        refs.status.textContent = `Updated from biweekly totals with ${number2.format(hours)} active hours, ${number1.format(miles)} engaged miles, ${currency.format(wage)} minimum wage, and ${currency.format(earnings)} base earnings.`;
+
+        const max = Math.max(earnings, floor, adjustment, 1);
+        refs.barBase.style.width = `${(earnings / max) * 100}%`;
+        refs.barFloor.style.width = `${(floor / max) * 100}%`;
+        refs.barAdj.style.width = `${(adjustment / max) * 100}%`;
+        refs.barBaseLabel.textContent = currency.format(earnings);
+        refs.barFloorLabel.textContent = currency.format(floor);
+        refs.barAdjLabel.textContent = currency.format(adjustment);
+      };
+
+      form.addEventListener('submit', (e) => { e.preventDefault(); calculate(); });
+      form.addEventListener('input', (e) => { if (e.target.matches('input')) calculate(); });
+      resetBtn.addEventListener('click', () => {
+        refs.hours.value = '49';
+        refs.miles.value = '840';
+        refs.wage.value = '16.50';
+        refs.earnings.value = '1460';
+        calculate();
+      });
+      calculate();
+    })();
+  </script>
+</body>
+</html>
